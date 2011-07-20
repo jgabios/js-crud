@@ -1,0 +1,14 @@
+<% extends ./base.html %>
+
+<% subskin content %>
+<div>
+  <h1 class="lefty" style="width: 80%"><% entityName %></h1>
+  <div class="righty"><a href="/admin/add<% entityName | lowercase %>">Add new <% entityName %></a></div>
+  <div class="clearer"></div>
+</div>
+<% for entity in <% entities %> render 'entityrow' %>
+
+<% subskin 'entityrow' %>
+<div class="post">
+  <% entity.name %>
+</div>

@@ -1,0 +1,7 @@
+{
+    "name": "jsutils",
+    "version": "0.1.0",
+    "description": "js util functions",
+    "keywords": ["util function", "js"],
+    "author": "Gabriel Munteanu (http://bash.editia.info/) <jajalinux@gmail.com>"
+}

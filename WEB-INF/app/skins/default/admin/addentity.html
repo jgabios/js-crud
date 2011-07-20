@@ -1,0 +1,25 @@
+<% extends ./base.html %>
+
+<% subskin content %>
+<div>
+  <h1 class="lefty" style="width: 80%">Add new <% entityName %></h1>
+  <div class="clearer"></div>
+</div>
+<div id="addEntityForm">
+<form name="blogpost" action="<% href %>" method="POST">
+<% for prop in <% propsArray %> render 'proprow' %>
+<input type="submit" name="Save" value="save"/>
+</form>
+</div>
+
+<% subskin 'proprow' %>
+
+<div>
+  <% prop.label %>
+  <% if <% equality <% prop.type %> 'StringProperty' %> render 'inputtextfield' %>
+  <% if <% equality <% prop.type %> 'TextProperty' %> render 'textarea' %>
+  <% if <% equality <% prop.type %> 'IntegerProperty' %> render 'inputtextfield' %>
+</div>
+
+<% subskin 'inputtextfield' %>
+<input type="text" size="5" name="<% prop.name %>"/>
