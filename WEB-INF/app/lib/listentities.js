@@ -15,13 +15,18 @@ exports.list = function(entityName){
           var showPrevious = currentPage >= 1;
           var entities = biz.getPageEntities(entityName, currentPage);
           var prev = currentPage-1;
+          
+          var properties = Object.keys(biz.getEntityProperties(entityName));
+          
           return {
               entityName: entityName,
               entities: entities,
+              properties: properties,
               next: ++currentPage,
               prev: prev,
               showNext: showNext,
-              showPrevious: showPrevious
+              showPrevious: showPrevious,
+              colNo: properties.length+1
           };
         }
     }

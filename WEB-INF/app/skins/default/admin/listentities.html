@@ -2,13 +2,36 @@
 
 <% subskin content %>
 <div>
-  <h1 class="lefty" style="width: 80%"><% entityName %></h1>
+  <h1 class="lefty" style="width: 80%"><% entityName %> Listing</h1>
   <div class="righty"><a href="/admin/add<% entityName | lowercase %>">Add new <% entityName %></a></div>
   <div class="clearer"></div>
 </div>
-<% for entity in <% entities %> render 'entityrow' %>
+
+<table align="center" cellspacing="0" cellpadding="0" border="0" class="listentities">
+    <tr class="superheader"><th>Idx.</th><th class="listingUtilButtons" colspan="<% properties.length %>"> <a href="#">Delete selected</a> </th></tr>
+    <tr class="header"><th> </th>
+        <% for property in <% properties %> render 'entityPropertyHeaderCell' %>
+    </tr>
+    <% for entity in <% entities %> render 'entityrow' %>
+    <tr><td colspan="<% colNo %>">
+            <% if <% showPrevious %> render 'previousButton' %> <% if <% showNext %> render 'nextButton' %>
+        </td></tr>
+</table>
 
 <% subskin 'entityrow' %>
-<div class="post">
-  <% entity.name %>
-</div>
+<tr class="entityRow">
+    <td class="id"><% index %></td>
+    <% for property in <% properties %> render 'entityProperty' %>
+</tr>
+
+<% subskin 'entityProperty' %>
+<td class="propertyCell"><% getObjVal <% entity %> <% property %> %></td>
+
+<% subskin 'entityPropertyHeaderCell' %>
+<th class="propertyHeaderCell"><% property %></th>
+
+<% subskin 'nextButton' %>
+<span class="righty"><a href="?currentPage=<% next %>">&Lt;</a></span>
+
+<% subskin 'previousButton' %>
+<span class="lefty"><a href="?currentPage=<% prev %>">&Gt;</a></span>

@@ -1,0 +1,50 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    background: #F9F9F0;
+}
+
+h3 {
+    margin: 0;
+    padding: 0;
+    color: #000;
+}
+
+h1 {
+    margin: 20px 0px 0px 0px;
+    padding: 0;
+    color: #000;
+}
+
+h2 {
+    font-size: 19px;
+    margin: auto auto 0 auto;
+}
+
+.listentities {
+    width: 80%;
+    text-align: center;
+}
+
+.propertyCell {
+    text-align: center;
+}
+
+.propertyHeaderCell {
+    text-align: center;
+}
+
+#addEntityForm {
+    vertical-align: middle;
+    margin: 0 auto;
+    width: 70%;
+}
+
+.formPropertyRow {
+    vertical-align: middle;
+}
+
+.listingUtilButtons {
+    text-align: left;
+}

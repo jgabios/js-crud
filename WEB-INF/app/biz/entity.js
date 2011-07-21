@@ -1,6 +1,7 @@
 var model = require('model');
 var CONSTANTS = require('constants');
 var db = require("google/appengine/ext/db");
+var strings = require('ringo/utils/strings');
 
 var saveEntity = function(entity){
 // some checks for code not empty, author's email, etc ...
@@ -16,6 +17,10 @@ var getEntityProperties = function(entityName) {
   return model[entityName].properties();
 }
 
+var getEntityKind = function(entityInstance) {
+    return strings.capitalize(entityInstance.constructor.kind());
+}
+
 var getEntityByAttribute = function(entityName, attributeName, attributeValue){
     var entities = model[entityName].query().equals(attributeName, attributeValue).fetch();
     if(entities && entities.length>0)
@@ -25,8 +30,6 @@ var getEntityByAttribute = function(entityName, attributeName, attributeValue){
 }
 
 var getPageEntities = function(entityName, currentPage) {
-  print('entityName = '+entityName);
-  print('model[entityName] = '+model[entityName]);
   var query = new db.Query(model[entityName]);
   return query.limit(CONSTANTS.ENTITIES_PER_PAGE).offset(currentPage*CONSTANTS.ENTITIES_PER_PAGE).fetch();
 }
