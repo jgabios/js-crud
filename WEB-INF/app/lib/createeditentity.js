@@ -31,11 +31,13 @@ exports.showform = function(entityName){
             };
     }
     if(env.req.isPost){
+        var isNew = false;
         if(!entity){
             entity = biz(env).createNewEntity(entityName);
+            isNew = true;
         }
         util.fillEntityFromRequestParams(entity, env.req.params);
-        biz(env).saveEntity(entity);
+        biz(env).saveEntity(entity, isNew);
         return {
             status: 'redirect',
             url: '/admin/'+entityName.toLowerCase()+'s'

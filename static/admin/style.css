@@ -48,3 +48,19 @@ h2 {
 .listingUtilButtons {
     text-align: left;
 }
+
+.righty {
+    float: right;
+}
+
+.lefty {
+    float: left;
+}
+
+.clearer {
+    clear: both;
+}
+
+#content {
+    width: 90%;
+}

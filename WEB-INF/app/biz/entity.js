@@ -3,9 +3,12 @@ var CONSTANTS = require('constants');
 var db = require("google/appengine/ext/db");
 var strings = require('ringo/utils/strings');
 
-var saveEntity = function(entity){
+var saveEntity = function(entity, isNew){
 // some checks for code not empty, author's email, etc ...
     entity.put();
+    if(isNew) {
+        increaseCounterForKind(getEntityKind(entity));
+    }
     return true;
 }
 
@@ -22,7 +25,7 @@ var getEntityKind = function(entityInstance) {
 }
 
 var getEntityByAttribute = function(entityName, attributeName, attributeValue){
-    var entities = model[entityName].query().equals(attributeName, attributeValue).fetch();
+    var entities = model[entityName].query().filter(attributeName+' =', attributeValue).fetch();
     if(entities && entities.length>0)
         return entities[0];
     else
@@ -35,7 +38,23 @@ var getPageEntities = function(entityName, currentPage) {
 }
 
 var getNumberOfEntities = function(entityName) {
-  return 100;
+  var query = new db.Query(model[CONSTANTS.COUNTER_MODEL]);
+  query.filter('entityName =', entityName);
+  var counter = query.fetch()[0];
+  return counter['counter'];
+}
+
+var increaseCounterForKind = function(entityName) {
+  var query = new db.Query(model[CONSTANTS.COUNTER_MODEL]);
+  query.filter('entityName =', entityName);
+  var counter = query.fetch()[0];
+  if(!counter) {
+      counter = createNewEntity(CONSTANTS.COUNTER_MODEL);
+      counter['counter'] = 0;
+      counter['entityName'] = entityName;
+  }
+  counter['counter'] = counter['counter'] +1;
+  counter.put();
 }
 
 var createNewEntity = function(entityName) {

@@ -26,3 +26,7 @@ exports.PodcastCategory = db.Model("podcastcategory", {
    podcast: new db.ReferenceProperty({referenceClass: Podcast})
 });
 
+exports.Counter = db.Model("Counter", {
+    entityName : new db.StringProperty(),
+    counter : new db.IntegerProperty()
+});
