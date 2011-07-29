@@ -41,6 +41,12 @@ var getNumberOfEntities = function(entityName) {
   var query = new db.Query(model[CONSTANTS.COUNTER_MODEL]);
   query.filter('entityName =', entityName);
   var counter = query.fetch()[0];
+  if(!counter) {
+      counter = createNewEntity(CONSTANTS.COUNTER_MODEL);
+      counter['counter'] = 0;
+      counter['entityName'] = entityName;
+      counter.put();
+  }
   return counter['counter'];
 }
 
@@ -57,6 +63,14 @@ var increaseCounterForKind = function(entityName) {
   counter.put();
 }
 
+var decreaseCounterForKind = function(entityName) {
+  var query = new db.Query(model[CONSTANTS.COUNTER_MODEL]);
+  query.filter('entityName =', entityName);
+  var counter = query.fetch()[0];
+  counter['counter'] = counter['counter'] - 1;
+  counter.put();
+}
+
 var createNewEntity = function(entityName) {
   return new model[entityName]();
 }
@@ -66,6 +80,20 @@ var getEntityById = function(entityName, id){
 
 var deleteEntity = function(entity) {
   entity.remove();
+  decreaseCounterForKind(getEntityKind(entity));
+}
+
+var getManageableEntities = function(){
+    var entities = [];
+    var config = model.Config;
+    for(var modelEntity in model) {
+        if(model[modelEntity].kind instanceof Function){
+            if(config[modelEntity] && config[modelEntity].crudable === true) {
+                entities.push(modelEntity);
+            }
+        }
+    }
+    return entities;
 }
 
 exports = require('biz/lib/bizexports').bizexport(this);

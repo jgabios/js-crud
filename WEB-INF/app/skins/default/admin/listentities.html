@@ -7,8 +7,9 @@
   <div class="clearer"></div>
 </div>
 
+<form action="<% href %>" method ="post">
 <table align="center" cellspacing="0" cellpadding="0" border="0" class="listentities">
-    <tr class="superheader"><th>Idx.</th><th class="listingUtilButtons" colspan="<% properties.length %>"> <a href="#">Delete selected</a> <a href="#" id="editer">Edit Selected</a></th></tr>
+    <tr class="superheader"><th>Idx.</th><th class="listingUtilButtons" colspan="<% properties.length %>"> <a href="#" id="deleter">Delete selected</a> <a href="#" id="editer">Edit Selected</a></th></tr>
     <tr class="header"><th> </th>
         <% for property in <% properties %> render 'entityPropertyHeaderCell' %>
     </tr>
@@ -17,20 +18,43 @@
             <% if <% showPrevious %> render 'previousButton' %> <% if <% showNext %> render 'nextButton' %>
         </td></tr>
 </table>
+</form>
+
+<a href="/admin/">Back to all entities</a>
+
 <script type="text/javascript">
     $('editer').addEvent('click', function(){
-        alert('clicked!');
+        var selectedEntityIds = getSelectedEntityIds();
+        if(selectedEntityIds.length!=1) {
+            alert('select only one');
+        } else {
+            window.location.href='/admin/edit<% entityName | lowercase %>?id='+selectedEntityIds[0];
+        }
     });
+    $('deleter').addEvent('click', function(){
+        document.forms[0].submit();
+    });
+    function getSelectedEntityIds(){
+        var ids = [];
+        var form = document.forms[0];
+        for(var i=0, l=form.elements.length; i<l; i++){
+            var el = form.elements[i];
+            if(el.tagName.toLowerCase() === 'input' && el.getAttribute('type') === 'checkbox' && el.checked) {
+                ids.push(el.value);
+            }
+        }
+        return ids;
+    }
 </script>
 
 <% subskin 'entityrow' %>
 <tr class="entityRow">
-    <td class="id"><% index %></td>
+    <td class="id"><% index %>. <input type="checkbox" name="ids[]" value="<% entity.key() %>"/></td>
     <% for property in <% properties %> render 'entityProperty' %>
 </tr>
 
 <% subskin 'entityProperty' %>
-<td class="propertyCell"><% getObjVal <% entity %> <% property %> %></td>
+<td class="propertyCell"><% getEntityValue <% entity %> <% property %> %></td>
 
 <% subskin 'entityPropertyHeaderCell' %>
 <th class="propertyHeaderCell"><% property %></th>

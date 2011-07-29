@@ -2,11 +2,12 @@
 
 <% subskin content %>
 <div>
-  <h1 class="lefty" style="width: 80%">Add new <% entityName %></h1>
+  <h1 class="lefty" style="width: 80%"><% if <% entity %> echo 'Edit' %> <% if not <% entity %> echo 'Add new' %> <% entityName %></h1>
   <div class="clearer"></div>
 </div>
 <div id="addEntityForm">
 <form name="blogpost" action="<% href %>" method="POST">
+<% if <% entity %> render 'hiddenIdInput' %>
 <% for prop in <% propsArray %> render 'proprow' %>
 <input type="submit" name="Save" value="save"/>
 </form>
@@ -18,10 +19,23 @@
   <% if <% equality <% prop.type %> 'StringProperty' %> render 'inputtextfield' %>
   <% if <% equality <% prop.type %> 'TextProperty' %> render 'textarea' %>
   <% if <% equality <% prop.type %> 'IntegerProperty' %> render 'inputtextfield' %>
+  <% if <% equality <% prop.type %> 'ReferenceProperty' %> render 'selecttextfield' %>
 </div>
 
 <% subskin 'inputtextfield' %>
-<input type="text" size="5" name="<% prop.name %>"/>
+<input type="text" size="5" name="<% prop.name %>" value="<% if <% entity %> getObjVal <% entity %> <% prop.label %> %>" />
 
 <% subskin 'textarea' %>
-<textarea cols="15" rows="5" name="<% prop.name %>" ></textarea>
+<textarea cols="15" rows="5" name="<% prop.name %>" ><% if <% entity %> getObjVal <% entity %> <% prop.label %> %></textarea>
+
+<% subskin 'hiddenIdInput'%>
+<input type="hidden" name="id" value="<% entity.key() %>"/>
+
+<% subskin 'selecttextfield' %>
+<select size="1" name="<% prop.name %>">
+    <option value=""> - </option>
+    <% for item in <% getObjVal <% references %> <% prop.label %> %> render 'optionitem' %>
+</select>
+
+<% subskin 'optionitem' %>
+<option value="<% item.key() %>"><% item.name %></option>

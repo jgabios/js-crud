@@ -1,8 +1,9 @@
 var db = require("google/appengine/ext/db");
 var bizEntity = require('biz/entity.js').admin;
 var CONSTANTS = require('constants');
+var strings = require('ringo/utils/strings');
 
-exports.getPropertyType = function(property) {
+var getPropertyType = exports.getPropertyType = function(property) {
   var type = null;
   if(property instanceof db.TextProperty){
    type = 'TextProperty';
@@ -23,6 +24,12 @@ exports.fillEntityFromRequestParams = function(entity, params) {
     var entityName = bizEntity.getEntityKind(entity);
     var props = bizEntity.getEntityProperties(entityName);
     for(var prop in props) {
-        entity[prop] = params[CONSTANTS.FORM_EL_PREFIX+prop];
+        if(getPropertyType(props[prop]) === 'ReferenceProperty') {
+            if(params[CONSTANTS.FORM_EL_PREFIX+prop]) {
+                entity[prop] = bizEntity.getEntityById(strings.capitalize(props[prop].referenceClass.kind()), params[CONSTANTS.FORM_EL_PREFIX+prop])
+            }
+        } else {
+            entity[prop] = params[CONSTANTS.FORM_EL_PREFIX+prop];
+        }
     }
 }

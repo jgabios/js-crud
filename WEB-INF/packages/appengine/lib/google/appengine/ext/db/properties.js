@@ -350,6 +350,9 @@ utils.extend(ReferenceProperty, Property);
 var capFirst = function (str) {
     return str.substring(0, 1).toUpperCase() + str.substring(1);
 }
+ReferenceProperty.prototype.getKind = function(){
+ return this.referenceClass;
+}
 
 ReferenceProperty.prototype.init = function (constructor) {
     var idName = "_" + this.name,
@@ -388,6 +391,7 @@ ReferenceProperty.prototype.init = function (constructor) {
 
         this.collectionName = this.collectionName || constructor.kind().toLowerCase() + "Set";
         var name = this.name;
+	print('reference !!!! '+this.referenceClass);
         Object.defineProperty(this.referenceClass.prototype, this.collectionName, {
             get: function () {
                 return constructor.all().filter(name + " =", this);

@@ -3,9 +3,12 @@ var biz = require('biz/entity.js').admin;
 
 exports.list = function(entityName){
         return function(env){
-          if(env.req.params['id']){
-              var entity = biz.getEntityById(entityName, env.req.params['id']);
-              biz.deleteEntity(entity);
+          if(env.req.params['ids']){
+              var ids = env.req.params['ids'];
+              for(var i=0,l = ids.length; i<l; i++) {
+                var entity = biz.getEntityById(entityName, ids[i]);
+                biz.deleteEntity(entity);
+              }
           }
 
           var currentPage = env.req.params["currentPage"] ? parseInt(env.req.params["currentPage"]) : 0;

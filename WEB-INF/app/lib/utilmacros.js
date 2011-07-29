@@ -13,6 +13,17 @@ exports.getObjVal_macro = function(){
   return obj[key];
 };
 
+exports.getEntityValue_macro = function(){
+  var params = arguments[0].parameters;
+  var obj = params[0];
+  var key = params[1];
+  if(obj[key] && obj[key].hasKey instanceof Function) {
+      return "<a href=\"#\" title=\"key="+obj[key].key()+"\">"+obj[key].name+"</a>";
+  } else {
+      return obj[key];
+  }
+}
+
 exports.hasValueForAttribute_macro = function(){
   var params = arguments[0].parameters;
   var obj = params[0];

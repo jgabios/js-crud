@@ -18,7 +18,8 @@ var Podcast = exports.Podcast = db.Model("podcast", {
 
 var Category = exports.Category = db.Model("category", {
    name: new db.StringProperty(),
-   podcastsNumber: new db.IntegerProperty()
+   podcastsNumber: new db.IntegerProperty(),
+   parentCategory : new db.ReferenceProperty({referenceClass: Category})
 });
 
 exports.PodcastCategory = db.Model("podcastcategory", {
@@ -26,7 +27,26 @@ exports.PodcastCategory = db.Model("podcastcategory", {
    podcast: new db.ReferenceProperty({referenceClass: Podcast})
 });
 
-exports.Counter = db.Model("Counter", {
+exports.Counter = db.Model("counter", {
     entityName : new db.StringProperty(),
     counter : new db.IntegerProperty()
 });
+
+exports.Config = {
+    "Category" : {
+        "crudable" : true
+    },
+    "Podcast" : {
+        "crudable" : true
+    },
+    "Counter" : {
+        "crudable" : false
+    },
+    "PodcastCategory" : {
+        "crudable" : false,
+        "relation" : {
+            "child" : "Podcast",
+            "parent" : "Category"
+        }
+    }
+}

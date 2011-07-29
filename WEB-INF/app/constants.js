@@ -2,6 +2,7 @@
  * @fileOverview provides constants used throughout the app
  * 
 */
+exports.VERSION = '0.1';
 exports.EMAIL='you@gmail.com';
 var APP_NAME = exports.APP_NAME = 'Podcasturi romanesti';
 exports.THEME_FOLDER = 'default'

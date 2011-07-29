@@ -2,3 +2,9 @@
 
 <% subskin content %>
 <h1> app version: <% version %> </h1>
+<div>
+    <% for entity in <% entities %> render 'entityBox'%>
+</div>
+
+<% subskin 'entityBox'%>
+<div><a href="/admin/<% entity | lowercase %>s"><% entity %></a></div>
