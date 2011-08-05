@@ -1,13 +1,5 @@
-/**
- * @fileOverview model.js contains our value objects, that we use to model our application.
- * we have a mix of ringojs model and appenginejs way of doing things.
- * I will keep the appenginejs way, as I intend to make ringopress google appengine only.
- */
 
 var db = require("google/appengine/ext/db");
-
-// maybe i will go full appenginejs low-level GDS with the entities and persistence
-// for now, only the plugins stored in the db will be GDS [google datastore]
 
 var Podcast = exports.Podcast = db.Model("podcast", {
    name: new db.StringProperty(),

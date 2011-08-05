@@ -6,3 +6,4 @@
  */
 
 //require('pluginManager').initPlugins();
+print('BOOTED');

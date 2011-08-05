@@ -25,9 +25,40 @@ var getEntityKind = function(entityInstance) {
 }
 
 var getEntityByAttribute = function(entityName, attributeName, attributeValue){
-    var entities = model[entityName].query().filter(attributeName+' =', attributeValue).fetch();
+    var query = new db.Query(model[entityName]);
+    var entities = query.filter(attributeName+' =', attributeValue).fetch();
     if(entities && entities.length>0)
         return entities[0];
+    else
+        return null;
+}
+
+var getEntityByAttributes = function(entityName, attributeValueMap){
+    var query = new db.Query(model[entityName]);
+    for(var attributeName in attributeValueMap) {
+      query.filter(attributeName+' =', attributeValueMap[attributeName]);
+    }
+    var entities = query.fetch();
+    if(entities && entities.length>0)
+        return entities[0];
+    else
+        return null;
+}
+
+var getEntitiesByAttribute = function(entityName, attributeName, attributeValue){
+    var query = new db.Query(model[entityName]);
+    var entities = query.filter(attributeName+' =', attributeValue).fetch();
+    if(entities && entities.length>0)
+        return entities;
+    else
+        return null;
+}
+
+var getEntityIdsByAttribute = function(entityName, attributeName, attributeValue){
+    var query = new db.Query(model[entityName], true);
+    var entities = query.filter(attributeName+' =', attributeValue).fetch();
+    if(entities && entities.length>0)
+        return entities;
     else
         return null;
 }
@@ -83,6 +114,9 @@ var deleteEntity = function(entity) {
   decreaseCounterForKind(getEntityKind(entity));
 }
 
+/**
+ * these are the entities that can be managed by an admin interface
+ */
 var getManageableEntities = function(){
     var entities = [];
     var config = model.Config;

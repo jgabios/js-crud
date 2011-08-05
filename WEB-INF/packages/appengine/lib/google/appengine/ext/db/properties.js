@@ -391,7 +391,6 @@ ReferenceProperty.prototype.init = function (constructor) {
 
         this.collectionName = this.collectionName || constructor.kind().toLowerCase() + "Set";
         var name = this.name;
-	print('reference !!!! '+this.referenceClass);
         Object.defineProperty(this.referenceClass.prototype, this.collectionName, {
             get: function () {
                 return constructor.all().filter(name + " =", this);

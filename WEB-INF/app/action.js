@@ -45,6 +45,9 @@ var defaultContext = {
  *
  */
 exports.action = function(config){
+    var nsm = Packages.com.google.appengine.api.NamespaceManager;
+    print(nsm.getGoogleAppsNamespace());
+    print('HOHOHOHOOHH');
     var skin = settings.themeFolder+config.skin;
     var html;
     return function(req,url){

@@ -2,8 +2,9 @@
 
 <% subskin content %>
 <% for categ in <% categs %> render 'categ' %>
+<div class="clearer"></div>
 
 <% subskin 'categ' %>
 <div class="categ">
-  <% categ.name %>
+  <a href="/categ?id=<% categ.key() %>"><% categ.name %></a> [<% categ.podcastsNumber %>]
 </div>

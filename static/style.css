@@ -1,8 +1,10 @@
 html, body {
     margin: 0;
     padding: 0;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: Verdana,Helvetica,Arial,sans-serif;
     background: #F9F9F0;
+    width: 100%;
+    height: 100%;
 }
 
 h3 {
@@ -22,3 +24,36 @@ h2 {
     margin: auto auto 0 auto;
 }
 
+#container {
+  margin: 0 auto;
+  width: 80%;
+  height: 90%;
+}
+
+#header {
+  background-color: #f1f1f1;
+  border-bottom: 1px solid #111;
+  height: 80px;
+}
+
+#content {
+  width: 95%;
+  margin: 0 auto;
+  height: 90%;
+}
+
+#footer {
+  background-color: #f1f1f1;
+  border-top: 1px solid #111;
+}
+
+.categ {
+  float: left;
+  width: 45%;
+  height: 40px;
+  margin: 5px;
+}
+
+.clearer {
+  clear: both;
+}

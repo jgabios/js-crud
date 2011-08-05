@@ -20,6 +20,7 @@
   <% if <% equality <% prop.type %> 'TextProperty' %> render 'textarea' %>
   <% if <% equality <% prop.type %> 'IntegerProperty' %> render 'inputtextfield' %>
   <% if <% equality <% prop.type %> 'ReferenceProperty' %> render 'selecttextfield' %>
+  <% if <% equality <% prop.type %> 'ManyToManyReference' %> render 'checkboxesfield' %>
 </div>
 
 <% subskin 'inputtextfield' %>
@@ -38,4 +39,16 @@
 </select>
 
 <% subskin 'optionitem' %>
-<option value="<% item.key() %>"><% item.name %></option>
+<option value="<% item.key() %>" <% if <% entity %> render 'selectedOption' %>><% item.name %></option>
+
+<% subskin 'selectedOption' %>
+<% equalKeys <% item %> <% getObjVal <% entity %> <% prop.label %> %> 'selected'%>
+
+<% subskin 'checkboxesfield'%>
+<% for item in <% getObjVal <% references %> <% prop.label %> %> render 'checkboxitem' %>
+
+<% subskin 'checkboxitem' %>
+<input name="<% prop.name %>[]" type="checkbox" value="<% item.key() %>" <% if <% entity %> render 'checkedCheckbox'%>/> <% item.name %><br/>
+
+<% subskin 'checkedCheckbox' %>
+<% isCheckedForEntity <% getObjVal <% entity %> <% prop.label %> %>  <% item %> 'checked'%>

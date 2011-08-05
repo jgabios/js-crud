@@ -6,6 +6,15 @@ exports.equality_macro = function() {
   return params[0] == params[1];
 }
 
+exports.equalKeys_macro = function() {
+  var params = arguments[0].parameters;
+  if(params[0].key().id() === params[1].key().id()) {
+    return params[2];
+  } else {
+    return '';
+  }
+}
+
 exports.getObjVal_macro = function(){
   var params = arguments[0].parameters;
   var obj = params[0];
@@ -20,7 +29,20 @@ exports.getEntityValue_macro = function(){
   if(obj[key] && obj[key].hasKey instanceof Function) {
       return "<a href=\"#\" title=\"key="+obj[key].key()+"\">"+obj[key].name+"</a>";
   } else {
-      return obj[key];
+      if(obj[key] && obj[key] instanceof Array) {
+        var result = '';
+        for(var i=0; i<obj[key].length; i++) {
+          var object = obj[key][i];
+          if(object.hasKey instanceof Function) {
+            result += "<a href=\"#\" title=\"key=" + object.key()+"\">" + object.name + "</a> , ";
+          } else {
+            result += object;
+          }
+        }
+        return result;
+      } else {
+        return obj[key];
+      }
   }
 }
 
@@ -58,6 +80,20 @@ exports.getValueOfObjectAttributeInArray_macro = function(){
       return obj.valoare;
     }
   }
+};
+
+exports.isCheckedForEntity_macro = function(){
+  var params = arguments[0].parameters;
+  var obj_array = params[0];
+  var entity = params[1];
+  var returnString = params[2];
+  for(var i=0,l=obj_array.length; i<l; i++){
+    var obj = obj_array[i];
+    if(entity.key().id() === obj.key().id()){
+      return returnString;
+    }
+  }
+  return '';
 };
 
 exports.hasValueOfObjectAttributeInArray_macro = function(){
